@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/cta-band";
+import { BreadcrumbJsonLd, ProductJsonLd } from "@/components/json-ld";
 import { PageHeader } from "@/components/page-header";
 import { getProduct, products } from "@/lib/content";
 
@@ -18,10 +19,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const product = getProduct(slug);
-  if (!product) return { title: "Product not found | Growing Chem India" };
+  if (!product) return { title: "Product not found" };
   return {
-    title: `${product.title} | Growing Chem India`,
+    title: product.title,
     description: product.overview,
+    alternates: { canonical: `/products/${slug}` },
+    openGraph: {
+      title: `${product.title} | Growing Chem India`,
+      description: product.overview,
+      url: `/products/${slug}`,
+      images: [{ url: `/categories/${slug}.jpg`, alt: product.title }],
+    },
   };
 }
 
@@ -39,6 +47,18 @@ export default async function ProductDetailPage({
 
   return (
     <>
+      <ProductJsonLd
+        name={product.title}
+        description={product.overview}
+        slug={product.slug}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Products", path: "/products" },
+          { name: product.title, path: `/products/${product.slug}` },
+        ]}
+      />
       <PageHeader
         eyebrow="Category"
         title={product.title}

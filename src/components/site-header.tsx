@@ -36,6 +36,9 @@ export function SiteHeader() {
             <a href={`tel:${site.phoneHref}`} className="hover:text-white">
               {site.phone}
             </a>
+            <a href={`tel:${site.phone2Href}`} className="hidden sm:inline hover:text-white">
+              {site.phone2}
+            </a>
           </div>
           <p className="hidden md:block text-[#97a2cc]">{site.metaBar}</p>
         </div>

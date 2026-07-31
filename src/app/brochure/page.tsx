@@ -4,10 +4,14 @@ import { CtaBand } from "@/components/cta-band";
 import { PageHeader } from "@/components/page-header";
 import { site } from "@/lib/content";
 
+const description =
+  "Download the Growing Chem India product brochure, or request a copy by email.";
+
 export const metadata: Metadata = {
-  title: "Brochure | Growing Chem India",
-  description:
-    "Download the Growing Chem India product brochure, or request a copy by email.",
+  title: "Brochure",
+  description,
+  alternates: { canonical: "/brochure" },
+  openGraph: { title: "Brochure | Growing Chem India", description, url: "/brochure" },
 };
 
 // Drop the PDF at public/brochure.pdf and this link works. Until then it 404s.

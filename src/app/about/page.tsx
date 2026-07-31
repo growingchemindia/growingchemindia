@@ -6,10 +6,14 @@ import { Process } from "@/components/process";
 import { Stats } from "@/components/stats";
 import { Testimonials } from "@/components/testimonials";
 
+const description =
+  "Growing Chem India is a distribution partner for specialty chemicals, built around consistency, honest grades and responsive service.";
+
 export const metadata: Metadata = {
-  title: "About | Growing Chem India",
-  description:
-    "Growing Chem India is a distribution partner for specialty chemicals, built around consistency, honest grades and responsive service.",
+  title: "About Us",
+  description,
+  alternates: { canonical: "/about" },
+  openGraph: { title: "About Us | Growing Chem India", description, url: "/about" },
 };
 
 export default function AboutPage() {

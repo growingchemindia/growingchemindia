@@ -4,10 +4,18 @@ import { PageHeader } from "@/components/page-header";
 import { Reveal } from "@/components/reveal";
 import { upcomingProducts } from "@/lib/content";
 
+const description =
+  "A look at what's next from Growing Chem India: new grades and product lines in our pipeline.";
+
 export const metadata: Metadata = {
-  title: "Upcoming Products | Growing Chem India",
-  description:
-    "A look at what's next from Growing Chem India: new grades and product lines in our pipeline.",
+  title: "Upcoming Products",
+  description,
+  alternates: { canonical: "/upcoming-products" },
+  openGraph: {
+    title: "Upcoming Products | Growing Chem India",
+    description,
+    url: "/upcoming-products",
+  },
 };
 
 export default function UpcomingProductsPage() {

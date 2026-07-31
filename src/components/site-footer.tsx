@@ -49,6 +49,9 @@ export function SiteFooter() {
           <a href={`tel:${site.phoneHref}`} className="block py-[0.3rem] text-[0.92rem] hover:text-white">
             {site.phone}
           </a>
+          <a href={`tel:${site.phone2Href}`} className="block py-[0.3rem] text-[0.92rem] hover:text-white">
+            {site.phone2}
+          </a>
           <p className="mt-2.5 text-[0.9rem]">New Delhi · Patna, India</p>
         </div>
       </div>

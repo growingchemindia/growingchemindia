@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import { Contact } from "@/components/contact";
 import { PageHeader } from "@/components/page-header";
 
+const description =
+  "Send your requirement and our team will respond with availability, grades and pricing.";
+
 export const metadata: Metadata = {
-  title: "Contact | Growing Chem India",
-  description:
-    "Send your requirement and our team will respond with availability, grades and pricing.",
+  title: "Contact",
+  description,
+  alternates: { canonical: "/contact" },
+  openGraph: { title: "Contact | Growing Chem India", description, url: "/contact" },
 };
 
 export default function ContactPage() {

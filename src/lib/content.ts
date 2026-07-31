@@ -8,9 +8,15 @@ export const site = {
   legalName: "Growing Chem India Pvt. Ltd.",
   tagline: "Specialty Chemical Distribution",
   since: 2016,
+  // Canonical production URL — used for metadata, sitemap and structured data.
+  url: "https://growingchemindia.com",
+  description:
+    "Growing Chem India is a trusted importer and distributor of pigments, additives, minerals and ready-to-use compounds for the plastics, PVC, rubber, paint and printing-ink industries.",
   email: "info@growingchemindia.com",
   phone: "+91 91555 54439",
   phoneHref: "+919155554439",
+  phone2: "+91 91555 53242",
+  phone2Href: "+919155553242",
   branches: "New Delhi · Patna, India",
   metaBar: "Consistent, batch-tested quality · Serving 11+ states across India",
 } as const;

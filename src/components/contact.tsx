@@ -6,9 +6,21 @@ import { Button } from "./ui/button";
 
 type Status = "idle" | "sending" | "ok" | "error";
 
-const infoRows = [
+const infoRows: {
+  label: string;
+  value: string;
+  href?: string;
+  value2?: string;
+  href2?: string;
+}[] = [
   { label: "Email", value: site.email, href: `mailto:${site.email}` },
-  { label: "Phone", value: site.phone, href: `tel:${site.phoneHref}` },
+  {
+    label: "Phone",
+    value: site.phone,
+    href: `tel:${site.phoneHref}`,
+    value2: site.phone2,
+    href2: `tel:${site.phone2Href}`,
+  },
   { label: "Branches", value: site.branches },
 ];
 
@@ -68,9 +80,19 @@ export function Contact() {
                   {row.label}
                 </span>
                 {row.href ? (
-                  <a href={row.href} className="hover:text-brand-600">
-                    {row.value}
-                  </a>
+                  <span className="flex flex-wrap items-center gap-x-2">
+                    <a href={row.href} className="hover:text-brand-600">
+                      {row.value}
+                    </a>
+                    {row.href2 ? (
+                      <>
+                        <span className="text-muted">·</span>
+                        <a href={row.href2} className="hover:text-brand-600">
+                          {row.value2}
+                        </a>
+                      </>
+                    ) : null}
+                  </span>
                 ) : (
                   <address className="not-italic">{row.value}</address>
                 )}
