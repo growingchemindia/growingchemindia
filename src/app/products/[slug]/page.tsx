@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/cta-band";
 import { BreadcrumbJsonLd, ProductJsonLd } from "@/components/json-ld";
 import { PageHeader } from "@/components/page-header";
-import { getProduct, products } from "@/lib/content";
+import { getProduct, products, toGrade } from "@/lib/content";
 
 /** Pre-render a static page per product at build time. */
 export function generateStaticParams() {
@@ -85,16 +85,108 @@ export default async function ProductDetailPage({
             <p className="mt-3 max-w-[62ch] text-[1.05rem] text-slatemuted">{product.overview}</p>
 
             <h3 className="mt-10 text-[1.15rem] font-semibold">Grades &amp; products</h3>
-            <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
-              {product.grades.map((g) => (
-                <li
-                  key={g}
-                  className="flex items-center gap-3 rounded-[10px] border border-line bg-white px-4 py-3 text-[0.95rem]"
-                >
-                  <span className="h-2 w-2 flex-none rounded-full bg-brand-500" />
-                  {g}
-                </li>
-              ))}
+            <ul className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
+              {product.grades.map(toGrade).map((g) => {
+                const cardClass =
+                  "group block h-full overflow-hidden rounded-[14px] border border-line bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]";
+
+                const thumb = g.image ? (
+                  <Image
+                    src={g.image}
+                    alt={g.name}
+                    fill
+                    sizes="(max-width: 640px) 50vw, 220px"
+                    className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                  />
+                ) : g.fileType === "pdf" ? (
+                  // Datasheet / brochure tile.
+                  <div className="flex h-full flex-col items-center justify-center gap-1.5 bg-gradient-to-br from-brand-50 to-brand-100">
+                    <svg
+                      className="h-8 w-8 text-brand-600"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 3h6l4 4v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" />
+                      <path d="M14 3v4h4M9.5 13h5M9.5 16.5h5" />
+                    </svg>
+                    <span className="font-[family-name:var(--font-head)] text-[0.6rem] font-bold uppercase tracking-wider text-brand-700">
+                      Datasheet
+                    </span>
+                  </div>
+                ) : (
+                  // Branded placeholder until a real photo is added.
+                  <div className="flex h-full items-center justify-center bg-gradient-to-br from-brand-50 to-brand-100">
+                    <svg
+                      className="h-8 w-8 text-brand-500/80"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M9 3h6M10 3v6l-5 8a3 3 0 0 0 3 4h8a3 3 0 0 0 3-4l-5-8V3" />
+                      <path d="M7.5 15h9" />
+                    </svg>
+                  </div>
+                );
+
+                const body = (
+                  <>
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      {thumb}
+                      {g.file ? (
+                        <span className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-0.5 text-[0.66rem] font-semibold text-navy-700 shadow-sm">
+                          {g.fileType === "pdf" ? "PDF" : "View"}
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="flex items-center justify-between gap-2 px-3.5 py-3">
+                      <p className="font-[family-name:var(--font-head)] text-[0.9rem] font-medium leading-snug">
+                        {g.name}
+                      </p>
+                      {g.file ? (
+                        <svg
+                          className="h-3.5 w-3.5 flex-none text-brand-600"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M14 5h5v5M19 5l-8 8M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" />
+                        </svg>
+                      ) : null}
+                    </div>
+                  </>
+                );
+
+                return (
+                  <li key={g.name}>
+                    {g.file ? (
+                      <a
+                        href={g.file}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cardClass}
+                        title={`Open ${g.name}`}
+                      >
+                        {body}
+                      </a>
+                    ) : (
+                      <div className={cardClass}>{body}</div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 

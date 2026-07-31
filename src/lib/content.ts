@@ -54,9 +54,36 @@ export type Product = {
     | "specialty";
   /** Detail-page fields. */
   overview: string;
-  grades: string[];
+  grades: Grade[];
   applications: string[];
 };
+
+/**
+ * A grade shown on the category detail page. Use a plain string for a
+ * name-only card, or an object to attach a thumbnail photo and/or an
+ * openable file (a datasheet PDF or a shade-card image in public/downloads).
+ */
+export type Grade =
+  | string
+  | {
+      name: string;
+      image?: string;
+      /** File opened in a new tab when the card is clicked. */
+      file?: string;
+      fileType?: "pdf" | "image";
+    };
+
+type NormalisedGrade = {
+  name: string;
+  image?: string;
+  file?: string;
+  fileType?: "pdf" | "image";
+};
+
+/** Normalises a grade to an object for rendering. */
+export function toGrade(g: Grade): NormalisedGrade {
+  return typeof g === "string" ? { name: g } : g;
+}
 
 export const products: Product[] = [
   {
@@ -69,13 +96,13 @@ export const products: Product[] = [
     overview:
       "Colour systems for plastics, inks and coatings. We stock organic and inorganic pigments, solvent and fluorescent dyes, pearlescent effects and carbon black, matched to your shade, dispersion and heat-stability needs.",
     grades: [
-      "Alpha Blue 15:1 / 15:3",
-      "Alpha Green 7",
-      "Alpha Red & Orange",
-      "Solvent Dyes",
-      "Pearlescent (silver / gold)",
-      "Fluorescent pigments",
-      "Carbon Black",
+      { name: "Alpha Blue 15:1 / 15:3", image: "/grades/alpha-blue.webp" },
+      { name: "Alpha Green 7", image: "/grades/alpha-green.jpg" },
+      { name: "Pigment Red & Yellows", image: "/grades/pigment-red.jpg" },
+      { name: "Solvent Dyes", image: "/grades/dyes.jpg" },
+      { name: "Pearlescent (silver / gold)", image: "/grades/pearlescent.jpg" },
+      { name: "Fluorescent pigments", image: "/grades/fluorescent.jpg" },
+      { name: "Carbon Black", image: "/grades/carbon-black.jpg" },
     ],
     applications: ["Masterbatch", "PVC pipes & profiles", "Printing inks", "Paints & coatings"],
   },
@@ -83,18 +110,24 @@ export const products: Product[] = [
     slug: "additives",
     title: "Additives",
     description:
-      "UV stabilizers (HALS), antioxidants, optical brighteners, processing aids, flame retardants and CPE.",
-    tags: "UV · AO · HALS · Brighteners",
+      "Optical brighteners (OB-1), clarifying agents, UV stabilizers (HALS), antioxidants, processing aids and flame retardants.",
+    tags: "OB-1 · Clarifiers · UV · HALS",
     icon: "additive",
     overview:
-      "Performance additives that protect and process your polymer. From UV and thermal protection to surface and processing aids, we supply consistent, well-documented grades.",
+      "Performance additives that protect and process your polymer. From optical brighteners and clarifying agents to UV and thermal protection and processing aids, we supply consistent, well-documented grades.",
     grades: [
-      "UV Stabilizers (HALS)",
-      "Antioxidants (AO series)",
-      "Optical Brighteners",
-      "Processing Aids",
-      "Flame Retardants",
-      "CPE",
+      { name: "Optical Brighteners", image: "/grades/optical-brightener.jpg" },
+      {
+        name: "Optical Brightener OB-1 (GC L7)",
+        image: "/grades/optical-brightener-ob1.jpg",
+        file: "/downloads/optical-brightener-gc-l7.pdf",
+        fileType: "pdf",
+      },
+      { name: "Clarifying Agents", image: "/grades/clarifying-agents.webp" },
+      { name: "UV Stabilizers (HALS)", image: "/grades/white-powder.jpg" },
+      { name: "Antioxidants (AO series)", image: "/grades/lab.jpg" },
+      { name: "Processing Aids", image: "/grades/white-powder.jpg" },
+      { name: "Flame Retardants", image: "/grades/flame.jpg" },
     ],
     applications: ["Masterbatch", "PVC compounding", "Films & sheets", "Wires & cables"],
   },
@@ -108,11 +141,11 @@ export const products: Product[] = [
     overview:
       "Functional fillers that improve economics and properties. Coated and uncoated calcium carbonate, titanium dioxide grades and stearates, ready to ship at volume.",
     grades: [
-      "CaCO₃ (coated / uncoated)",
-      "TiO₂ (rutile grades)",
-      "Zinc Stearate",
-      "Calcium Stearate",
-      "Talc",
+      { name: "CaCO₃ (coated / uncoated)", image: "/categories/minerals-fillers.jpg" },
+      { name: "TiO₂ (rutile grades)", image: "/grades/white-powder.jpg" },
+      { name: "Zinc Stearate", image: "/grades/white-powder.jpg" },
+      { name: "Calcium Stearate", image: "/categories/minerals-fillers.jpg" },
+      { name: "Talc", image: "/grades/white-powder.jpg" },
     ],
     applications: ["PVC pipes & fittings", "Masterbatch", "Paints", "Rubber"],
   },
@@ -126,11 +159,17 @@ export const products: Product[] = [
     overview:
       "Ready-to-use colour masterbatch, additive masterbatch and pre-mixed compounds that simplify dosing and improve batch consistency. Ideal when you want repeatable results straight from the bag.",
     grades: [
-      "Colour Masterbatch",
-      "White & Black Masterbatch",
-      "Additive Masterbatch",
-      "Filler Masterbatch",
-      "Custom compounds",
+      {
+        name: "Garden Pipe Shade Card",
+        image: "/downloads/garden-pipe-shade-card.jpg",
+        file: "/downloads/garden-pipe-shade-card.jpg",
+        fileType: "image",
+      },
+      { name: "Colour Masterbatch", image: "/grades/pellets-colored.jpg" },
+      { name: "White & Black Masterbatch", image: "/grades/white-black-masterbatch.jpg" },
+      { name: "Additive Masterbatch", image: "/grades/pellets-natural.jpg" },
+      { name: "Filler Masterbatch", image: "/grades/filler-masterbatch.jpg" },
+      { name: "Custom compounds", image: "/grades/pellets-colored.jpg" },
     ],
     applications: ["Injection moulding", "Extrusion", "Blow moulding", "Film & sheet"],
   },
@@ -144,10 +183,16 @@ export const products: Product[] = [
     overview:
       "Beyond our core categories, we help customers source specialty and hard-to-find raw materials. If you need a product we don't stock, share the specification and we work our supplier network to find the right grade at the right price.",
     grades: [
-      "Hard-to-find raw materials",
-      "Custom imports",
-      "Bulk sourcing",
-      "New material trials",
+      {
+        name: "Detergent Segment Brochure",
+        image: "/grades/detergent.jpg",
+        file: "/downloads/detergent-brochure.pdf",
+        fileType: "pdf",
+      },
+      { name: "Hard-to-find raw materials", image: "/categories/other-segments.jpg" },
+      { name: "Custom imports", image: "/categories/other-segments.jpg" },
+      { name: "Bulk sourcing", image: "/categories/other-segments.jpg" },
+      { name: "New material trials", image: "/grades/lab.jpg" },
     ],
     applications: ["Across all the industries we serve"],
   },
@@ -226,7 +271,7 @@ export const testimonials: Testimonial[] = [
     quote:
       "Responsive team and honest technical advice. They helped us fix a colour drift issue in two days.",
     name: "Purchase Manager",
-    role: "Masterbatch Producer, Maharashtra",
+    role: "Masterbatch Producer, Assam",
   },
   {
     quote:
