@@ -12,7 +12,7 @@ export const site = {
   phone: "+91 91555 54439",
   phoneHref: "+919155554439",
   branches: "New Delhi · Patna, India",
-  metaBar: "Consistent, batch-tested quality · Serving 20+ states across India",
+  metaBar: "Consistent, batch-tested quality · Serving 11+ states across India",
 } as const;
 
 /* Primary navigation. "Categories" scrolls to the categories section on home. */
@@ -27,10 +27,10 @@ export const nav = [
 
 export type Stat = { value: number; suffix?: string; label: string };
 export const stats: Stat[] = [
-  { value: 8, label: "Years in the trade" },
-  { value: 200, suffix: "+", label: "Products & grades" },
-  { value: 750, suffix: "+", label: "Clients served" },
-  { value: 21, suffix: "+", label: "States covered" },
+  { value: 10, label: "Years in the trade" },
+  { value: 80, suffix: "+", label: "Products & grades" },
+  { value: 250, suffix: "+", label: "Clients served" },
+  { value: 11, suffix: "+", label: "States covered" },
 ];
 
 export type Product = {
