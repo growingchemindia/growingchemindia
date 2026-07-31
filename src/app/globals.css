@@ -1,26 +1,71 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ------------------------------------------------------------------
+   Growing Chem India design tokens (Tailwind v4 CSS-first config)
+   Palette lifted from the company brand card: a navy-blue primary
+   with a fresh "growing" green accent, paired as a navy -> green
+   gradient (the logo swoosh). Kept minimal and professional on a
+   soft lavender-white ground like the card background.
+   ------------------------------------------------------------------ */
+@theme {
+  /* Green, the "growing" accent: buttons, links, live details */
+  --color-brand-50: #eef7ee;
+  --color-brand-100: #d5edd3;
+  --color-brand-200: #7bc043; /* light green tip for text on navy */
+  --color-brand-400: #4fb03f;
+  --color-brand-500: #2f9e46; /* primary green */
+  --color-brand-600: #268038;
+  --color-brand-700: #1e6b30;
+
+  /* Navy, the authority color: dark sections, headings, structure */
+  --color-navy-400: #2c3d8f;
+  --color-navy-500: #24337e;
+  --color-navy-600: #1c2a6e;
+  --color-navy-700: #142257;
+  --color-navy-900: #0b1338;
+
+  --color-ink: #16213e;         /* navy-tinted near-black body text */
+  --color-slatemuted: #46507a;  /* muted navy-gray */
+  --color-muted: #6b7392;
+  --color-line: #e5e7f1;
+  --color-tint: #f4f5fb;        /* faint lavender ground from the card */
+  --color-dark: #142257;        /* navy, matches the card's header band */
+
+  --radius-card: 16px;
+
+  --shadow-soft: 0 10px 30px -12px rgba(17, 24, 60, 0.16);
+  --shadow-lg: 0 24px 60px -20px rgba(17, 24, 60, 0.26);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  letter-spacing: -0.015em;
+}
+
+/* Scroll-reveal utility */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
 }
