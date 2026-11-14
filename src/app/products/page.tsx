@@ -6,7 +6,7 @@ import { Reveal } from "@/components/reveal";
 import { products } from "@/lib/content";
 
 const description =
-  "Pigments & dyes, additives, minerals & fillers, ready-to-use compounds and custom sourcing for the plastics, PVC, rubber, paint and printing-ink industries.";
+  "Pigment & dye, additive, mineral & filler, ready-to-use compound and custom sourcing for the plastics, PVC, rubber, paint and printing-ink industries.";
 
 export const metadata: Metadata = {
   title: "Products",

@@ -6,14 +6,14 @@ import { CtaBand } from "@/components/cta-band";
 import { BreadcrumbJsonLd, ProductJsonLd } from "@/components/json-ld";
 import { PageHeader } from "@/components/page-header";
 import { ShadeGrid } from "@/components/shade-grid";
-import { getGrade, gradeDescription, gradeId, products, toGrade } from "@/lib/content";
+import { getGrade, gradeDescription, gradeHref, gradeId, ownPageGrades, products, toGrade } from "@/lib/content";
 
 type Params = Promise<{ slug: string; grade: string }>;
 
 /** Pre-render a static page for every product in every category. */
 export function generateStaticParams() {
   return products.flatMap((p) =>
-    p.grades.map(toGrade).map((g) => ({ slug: p.slug, grade: gradeId(g.name) }))
+    ownPageGrades(p).map((g) => ({ slug: p.slug, grade: gradeId(g.name) }))
   );
 }
 
@@ -90,6 +90,14 @@ export default async function GradePage({ params }: { params: Params }) {
           </div>
 
           <div>
+            {g.brand ? (
+              <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-[0.88rem] text-slatemuted">
+                Brand
+                <span className="font-[family-name:var(--font-head)] font-semibold text-brand-700">
+                  {g.brand}
+                </span>
+              </p>
+            ) : null}
             <h2 className="text-[1.5rem] font-bold">Overview</h2>
             <p className="mt-3 text-[1.05rem] text-slatemuted">{gradeDescription(product, g)}</p>
 
@@ -149,7 +157,7 @@ export default async function GradePage({ params }: { params: Params }) {
               {siblings.map((s) => (
                 <li key={s.name}>
                   <Link
-                    href={`/products/${slug}/${gradeId(s.name)}`}
+                    href={gradeHref(slug, s)}
                     className="group block h-full overflow-hidden rounded-[14px] border border-line bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]"
                   >
                     <div className="relative aspect-[4/3] overflow-hidden">

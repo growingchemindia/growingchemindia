@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 import { SiteFooter } from "@/components/site-footer";
 import { OrganizationJsonLd } from "@/components/json-ld";
 import { site } from "@/lib/content";
@@ -38,10 +39,10 @@ export const metadata: Metadata = {
     "chemical distributor India",
     "specialty chemical supplier",
     "PVC resin supplier",
-    "pigments and dyes",
+    "pigment and dye",
     "titanium dioxide",
     "calcium carbonate",
-    "polymer additives",
+    "polymer additive",
     "colour masterbatch",
     "Growing Chem India",
   ],
@@ -92,6 +93,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <WhatsAppButton />
       </body>
     </html>
   );

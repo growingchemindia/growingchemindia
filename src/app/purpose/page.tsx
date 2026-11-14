@@ -6,7 +6,7 @@ import { SectionHead } from "@/components/section-head";
 import { mission, purpose, values } from "@/lib/content";
 
 const description =
-  "The purpose, mission and values that guide how Growing Chem India supplies specialty chemicals to Indian manufacturers.";
+  "The purpose, mission and values that guide how Growing Chem India supplies specialty chemical to Indian manufacturers.";
 
 export const metadata: Metadata = {
   title: "Purpose, Mission & Values",

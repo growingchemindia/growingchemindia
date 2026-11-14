@@ -20,12 +20,12 @@ export function Hero() {
             {site.tagline} · Since {site.since}
           </span>
           <h1 className="text-[clamp(2.1rem,4.6vw,3.4rem)] font-extrabold leading-[1.12] tracking-[-0.02em]">
-            Reliable raw materials that help Indian manufacturing{" "}
+            Reliable raw materials that help your business{" "}
             <span className="text-brand-500">grow</span>.
           </h1>
           <p className="my-6 max-w-[42ch] text-[1.1rem] text-slatemuted">
-            We import, stock and supply pigments, dyes, additives, minerals and ready-to-use
-            compounds for the plastics, PVC, rubber, paint and printing-ink industries,
+            We import, stock and supply pigment, dye, additive, mineral and ready-to-use
+            compound for the plastics, PVC, rubber, paint and printing-ink industries,
             backed by lab support and consistent quality.
           </p>
           <div className="flex flex-wrap gap-3.5">

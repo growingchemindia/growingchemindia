@@ -10,7 +10,7 @@ export function SiteFooter() {
         <div>
           <Brand light />
           <p className="mt-4 max-w-[34ch] text-[0.92rem]">
-            Importer and distributor of specialty chemicals and raw materials for the plastics,
+            Importer and distributor of specialty chemical and raw materials for the plastics,
             PVC, rubber, paint and printing-ink industries.
           </p>
         </div>
@@ -39,6 +39,12 @@ export function SiteFooter() {
               {item.label}
             </Link>
           ))}
+          <Link
+            href="/brochure"
+            className="block py-[0.3rem] text-[0.92rem] transition-colors hover:text-white"
+          >
+            Brochure
+          </Link>
         </div>
 
         <div>

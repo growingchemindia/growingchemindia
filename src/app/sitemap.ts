@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { gradeId, industries, products, site, toGrade } from "@/lib/content";
+import { gradeId, industries, ownPageGrades, products, site } from "@/lib/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -36,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const gradePages: MetadataRoute.Sitemap = products.flatMap((p) =>
-    p.grades.map(toGrade).map((g) => ({
+    ownPageGrades(p).map((g) => ({
       url: `${site.url}/products/${p.slug}/${gradeId(g.name)}`,
       lastModified,
       changeFrequency: "monthly" as const,

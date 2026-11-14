@@ -49,8 +49,8 @@ export default function BrochurePage() {
             <div>
               <h2 className="text-[1.5rem] font-bold">Growing Chem India Product Brochure</h2>
               <p className="mt-3 max-w-[52ch] text-slatemuted">
-                Everything in one place: pigments &amp; dyes, additives, minerals &amp; fillers,
-                ready-to-use compounds and more, with typical applications for each.
+                Everything in one place: pigment &amp; dye, additive, mineral &amp; filler,
+                ready-to-use compound and more, with typical applications for each.
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3.5">

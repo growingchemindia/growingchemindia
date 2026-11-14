@@ -11,12 +11,15 @@ export const site = {
   // Canonical production URL — used for metadata, sitemap and structured data.
   url: "https://growingchemindia.com",
   description:
-    "Growing Chem India is a trusted importer and distributor of pigments, additives, minerals and ready-to-use compounds for the plastics, PVC, rubber, paint and printing-ink industries.",
+    "Growing Chem India is a trusted importer and distributor of pigment, additive, mineral and ready-to-use compound for the plastics, PVC, rubber, paint and printing-ink industries.",
   email: "info@growingchemindia.com",
   phone: "+91 91555 54439",
   phoneHref: "+919155554439",
   phone2: "+91 91555 53242",
   phone2Href: "+919155553242",
+  // WhatsApp number for the floating chat button: country code + number, digits only.
+  whatsapp: "919155554439",
+  whatsappMessage: "Hi, I'd like to enquire about your products.",
   branches: "New Delhi · Patna, India",
   metaBar: "Consistent, batch-tested quality · Serving 11+ states across India",
 } as const;
@@ -77,6 +80,10 @@ export type Grade =
       description?: string;
       /** Colour range shown as swatches on the product's page. */
       shades?: Shade[];
+      /** Brand or trade name shown on the product's page. */
+      brand?: string;
+      /** Link to an existing page instead of giving this item its own product page. */
+      href?: string;
       /** Datasheet or shade card offered for download on the product page. */
       file?: string;
       fileType?: "pdf" | "image";
@@ -87,9 +94,21 @@ type NormalisedGrade = {
   image?: string;
   description?: string;
   shades?: Shade[];
+  brand?: string;
+  href?: string;
   file?: string;
   fileType?: "pdf" | "image";
 };
+
+/** URL of a product's page: its own page, or the shared page it points to. */
+export function gradeHref(slug: string, g: NormalisedGrade) {
+  return g.href ?? `/products/${slug}/${gradeId(g.name)}`;
+}
+
+/** Grades that get their own page under /products/<slug>/<grade>. */
+export function ownPageGrades(product: Product) {
+  return product.grades.map(toGrade).filter((g) => !g.href);
+}
 
 /** URL slug for a product (grade), e.g. "Alpha Green 7" -> "alpha-green-7". */
 export function gradeId(name: string) {
@@ -104,19 +123,19 @@ export function toGrade(g: Grade): NormalisedGrade {
 export const products: Product[] = [
   {
     slug: "pigments",
-    title: "Pigments",
+    title: "Pigment",
     description:
-      "Azo, inorganic, fluorescent, pearl, phthalocyanine and black & metallic pigments for vivid, stable colour.",
+      "Azo, inorganic, fluorescent, pearl, phthalocyanine and black & metallic pigment for vivid, stable colour.",
     tags: "Azo · Inorganic · Fluorescent · Pearl · Metallic",
     icon: "pigment",
     overview:
-      "Colour systems for plastics, inks and coatings. We stock organic and inorganic pigments, fluorescent and pearlescent effects and carbon black, matched to your shade, dispersion and heat-stability needs.",
+      "Colour systems for plastics, inks and coatings. We stock organic and inorganic pigment, fluorescent and pearlescent effects and carbon black, matched to your shade, dispersion and heat-stability needs.",
     grades: [
       {
-        name: "Azo Pigments",
+        name: "Azo Pigment",
         image: "/grades/pigment-red.jpg",
         description:
-          "Organic azo pigments in bright yellows, oranges, reds and violets. A cost-effective choice for masterbatch, plastics, printing inks and coatings where strong, clean shades matter.",
+          "Organic azo pigment in bright yellows, oranges, reds and violets. A cost-effective choice for masterbatch, plastics, printing inks and coatings where strong, clean shades matter.",
         shades: shades([
           ["Pigment Red 53:1", "#d7262b", "#e8736d"],
           ["Pigment Red 48:2", "#c8233a", "#e07a99"],
@@ -144,10 +163,10 @@ export const products: Product[] = [
         ]),
       },
       {
-        name: "Inorganic Pigments",
+        name: "Inorganic Pigment",
         image: "/categories/pigments.jpg",
         description:
-          "Inorganic pigments for opacity, heat stability and weather resistance: iron oxides, ultramarines, bismuth vanadate, chrome yellows and titanium dioxide.",
+          "Inorganic pigment for opacity, heat stability and weather resistance: iron oxide, ultramarines, bismuth vanadate, chrome yellows and titanium dioxide.",
         shades: shades([
           ["Pigment Yellow 34 (Middle)", "#f2a91e", "#f4cd7c"],
           ["Pigment Yellow 34 (Lemon)", "#f5dc1b", "#f6eaa0"],
@@ -164,10 +183,10 @@ export const products: Product[] = [
         ]),
       },
       {
-        name: "Fluorescent Pigments",
+        name: "Fluorescent Pigment",
         image: "/grades/fluorescent.jpg",
         description:
-          "High-visibility fluorescent pigments for plastics, inks and coatings that need vivid, eye-catching colour.",
+          "High-visibility fluorescent pigment for plastics, inks and coatings that need vivid, eye-catching colour.",
         shades: shades([
           ["Fluorescent Yellow", "#e9ff1f"],
           ["Fluorescent Orange", "#ff6a13"],
@@ -179,10 +198,10 @@ export const products: Product[] = [
         ]),
       },
       {
-        name: "Black & Metallic Pigments",
+        name: "Black & Metallic Pigment",
         image: "/grades/carbon-black.jpg",
         description:
-          "Speciality carbon blacks for deep jetness, and metallic pigments for silver, gold, copper and bronze effects.",
+          "Speciality carbon blacks for deep jetness, and metallic pigment for silver, gold, copper and bronze effects.",
         shades: shades([
           ["Speciality Black Marvel 1000", "#111113"],
           ["Speciality Black Nexa Black", "#0b0b0d"],
@@ -193,10 +212,10 @@ export const products: Product[] = [
         ]),
       },
       {
-        name: "Pearl Pigments",
+        name: "Pearl Pigment",
         image: "/grades/pearlescent.jpg",
         description:
-          "Pearlescent pigments that add a soft lustre and colour-shifting sheen to plastics, coatings and inks.",
+          "Pearlescent pigment that adds a soft lustre and colour-shifting sheen to plastics, coatings and inks.",
         shades: shades([
           ["Silver Pearl 100", sheen("#fafafa", "#cfd3d6")],
           ["Silver Pearl 120", sheen("#f6f6f6", "#c4c8cc")],
@@ -209,7 +228,7 @@ export const products: Product[] = [
         ]),
       },
       {
-        name: "Phthalocyanine Pigments",
+        name: "Phthalocyanine Pigment",
         image: "/grades/alpha-blue.webp",
         description:
           "Phthalocyanine blues and greens with excellent colour strength, light fastness and heat stability.",
@@ -224,19 +243,19 @@ export const products: Product[] = [
   },
   {
     slug: "dyes",
-    title: "Dyes",
+    title: "Dye",
     description:
-      "Solvent, acid and basic dyes for bright colour in plastics, inks, textiles, leather and paper.",
+      "Solvent, acid and basic dye for bright colour in plastics, inks, textiles, leather and paper.",
     tags: "Solvent · Acid · Basic",
     icon: "pigment",
     overview:
-      "Solvent dyes for transparent and bright shades in plastics, masterbatch and printing inks, selected for solubility, heat stability and colour strength.",
+      "Solvent dye for transparent and bright shades in plastics, masterbatch and printing inks, selected for solubility, heat stability and colour strength.",
     grades: [
       {
-        name: "Solvent Dyes",
+        name: "Solvent Dye",
         image: "/grades/dyes.jpg",
         description:
-          "Polymer-soluble solvent dyes for transparent, brilliant shades in plastics, masterbatch and inks. Available across yellows, oranges, reds, violets, blues, greens and browns.",
+          "Polymer-soluble solvent dye for transparent, brilliant shades in plastics, masterbatch and inks. Available across yellows, oranges, reds, violets, blues, greens and browns.",
         shades: shades([
           ["Solvent Yellow 93", "#f4b120", "#f7d78a"],
           ["Solvent Yellow 98", "#f0a924", "#f3cf8e"],
@@ -263,9 +282,9 @@ export const products: Product[] = [
         ]),
       },
       {
-        name: "Acid Dyes",
+        name: "Acid Dye",
         description:
-          "Water-soluble anionic dyes for bright, level shades on nylon, wool, silk and leather, and in paper and water-based inks.",
+          "Water-soluble anionic dye for bright, level shades on nylon, wool, silk and leather, and in paper and water-based inks.",
         shades: [
           { name: "Acid Orange II", ci: "Acid Orange 7", masstone: "#f26b1d" },
           { name: "Acid Scarlet 3R", ci: "Acid Red 18", masstone: "#e0262f" },
@@ -283,9 +302,9 @@ export const products: Product[] = [
         ],
       },
       {
-        name: "Basic Dyes",
+        name: "Basic Dye",
         description:
-          "Cationic dyes with very high colour strength and brilliance, used for acrylic fibres, paper, leather and printing inks. Available as powder and liquid.",
+          "Cationic dye with very high colour strength and brilliance, used for acrylic fibres, paper, leather and printing inks. Available as powder and liquid.",
         shades: [
           { name: "Methylene Blue 2B", ci: "Basic Blue 9", masstone: "#1f5fa8" },
           { name: "Victoria Blue B", ci: "Basic Blue 26", masstone: "#2a4fa0" },
@@ -306,41 +325,71 @@ export const products: Product[] = [
   },
   {
     slug: "additives",
-    title: "Additives",
+    title: "Additive",
     description:
-      "Optical brighteners (OB-1), clarifying agents, UV stabilizers (HALS), antioxidants, processing aids and flame retardants.",
-    tags: "OB-1 · Clarifiers · UV · HALS",
+      "Optical brightener, clarifying agent, UV stabilizer, antioxidant, processing aid, slip additive, wax and anti-moisture powder.",
+    tags: "OB-1 · UV · Antioxidant · Slip · Wax",
     icon: "additive",
     overview:
-      "Performance additives that protect and process your polymer. From optical brighteners and clarifying agents to UV and thermal protection and processing aids, we supply consistent, well-documented grades.",
+      "Performance additive that protects and processes your polymer. From optical brightener and clarifying agent to UV and thermal protection and processing aid, we supply consistent, well-documented grades.",
     grades: [
-      { name: "Optical Brighteners", image: "/grades/optical-brightener.jpg" },
+      { name: "Optical Brightener (GC - L1)", image: "/grades/optical-brightener.jpg" },
       {
-        name: "Optical Brightener OB-1 (GC L7)",
+        name: "Optical Brightener 1 (GC L7)",
         image: "/grades/optical-brightener-ob1.jpg",
         file: "/downloads/optical-brightener-gc-l7.pdf",
         fileType: "pdf",
       },
-      { name: "Clarifying Agents", image: "/grades/clarifying-agents.webp" },
-      { name: "UV Stabilizers (HALS)", image: "/grades/white-powder.jpg" },
-      { name: "Antioxidants (AO series)", image: "/grades/lab.jpg" },
-      { name: "Processing Aids", image: "/grades/white-powder.jpg" },
-      { name: "Flame Retardants", image: "/grades/flame.jpg" },
+      {
+        name: "OB for Detergent",
+        brand: "CB SX",
+        description:
+          "Optical brightener for detergent powders, cakes and bars, giving washed fabrics a brighter, whiter look.",
+      },
+      {
+        name: "PVC Garden Pipe",
+        image: "/downloads/garden-pipe-shade-card.jpg",
+        href: "/industries/garden-pipe",
+      },
+      { name: "Clarifying Agent (Polyclear)", image: "/grades/clarifying-agents.webp" },
+      { name: "UV Stabilizer (HALS)", image: "/grades/white-powder.jpg" },
+      { name: "Anti-oxidant (AO series)", image: "/grades/lab.jpg" },
+      { name: "Processing Aid", image: "/grades/white-powder.jpg" },
+      {
+        name: "Slip Additive",
+        description:
+          "Lower surface friction on films and moulded parts for easier handling, winding and de-moulding. Erucamide and oleamide types available.",
+      },
+      {
+        name: "Zinc & Calcium Stearate",
+        description:
+          "Lubricants, release agent and acid scavengers for polyolefins, PVC and rubber processing.",
+      },
+      {
+        name: "PE & PP Wax",
+        description:
+          "Polyethylene and polypropylene wax that improves flow, dispersion and surface finish in plastics, masterbatch, rubber and printing inks.",
+      },
+      {
+        name: "Anti-Moisture Powder (Anti-Damp)",
+        description:
+          "Moisture-absorbing additive that removes trapped moisture during processing, preventing bubbles, voids and silver streaks. Especially useful with recycled and filled plastics.",
+      },
     ],
     applications: ["Masterbatch", "PVC compounding", "Films & sheets", "Wires & cables"],
   },
   {
     slug: "minerals-fillers",
-    title: "Minerals & Fillers",
+    title: "Mineral & Filler",
     description:
-      "Coated and uncoated calcium carbonate, titanium dioxide grades, stearates and functional fillers.",
-    tags: "CaCO₃ · TiO₂ · Stearates",
+      "Coated and uncoated calcium carbonate, titanium dioxide grades, stearate and functional fillers.",
+    tags: "CaCO₃ · TiO₂ · Stearate",
     icon: "mineral",
     overview:
-      "Functional fillers that improve economics and properties. Coated and uncoated calcium carbonate, titanium dioxide grades and stearates, ready to ship at volume.",
+      "Functional filler that improves economics and properties. Coated and uncoated calcium carbonate, titanium dioxide grades and stearate, ready to ship at volume.",
     grades: [
       { name: "CaCO₃ (coated / uncoated)", image: "/categories/minerals-fillers.jpg" },
-      { name: "TiO₂ (rutile grades)", image: "/grades/white-powder.jpg" },
+      { name: "TiO₂ (rutile grade)", image: "/grades/white-powder.jpg" },
       { name: "Zinc Stearate", image: "/grades/white-powder.jpg" },
       { name: "Calcium Stearate", image: "/categories/minerals-fillers.jpg" },
       { name: "Talc", image: "/grades/white-powder.jpg" },
@@ -351,11 +400,11 @@ export const products: Product[] = [
     slug: "ready-to-use",
     title: "Ready to Use",
     description:
-      "Pre-dispersed masterbatch and ready-mixed compounds that drop straight into your process, with no in-house blending needed.",
-    tags: "Colour Masterbatch · Compounds · Blends",
+      "Pre-dispersed masterbatch and ready-mixed compound that drops straight into your process, with no in-house blending needed.",
+    tags: "Colour Masterbatch · Compound · Blends",
     icon: "specialty",
     overview:
-      "Ready-to-use colour masterbatch, additive masterbatch and pre-mixed compounds that simplify dosing and improve batch consistency. Ideal when you want repeatable results straight from the bag.",
+      "Ready-to-use colour masterbatch, additive masterbatch and pre-mixed compound that simplifies dosing and improve batch consistency. Ideal when you want repeatable results straight from the bag.",
     grades: [
       {
         name: "Garden Pipe Shade Card",
@@ -367,13 +416,13 @@ export const products: Product[] = [
       { name: "White & Black Masterbatch", image: "/grades/white-black-masterbatch.jpg" },
       { name: "Additive Masterbatch", image: "/grades/pellets-natural.jpg" },
       { name: "Filler Masterbatch", image: "/grades/filler-masterbatch.jpg" },
-      { name: "Custom compounds", image: "/grades/pellets-colored.jpg" },
+      { name: "Custom compound", image: "/grades/pellets-colored.jpg" },
     ],
     applications: ["Injection moulding", "Extrusion", "Blow moulding", "Film & sheet"],
   },
   {
     slug: "other-segments",
-    title: "Other Segments",
+    title: "Other Segment",
     description:
       "Custom sourcing and additional raw materials beyond our core categories. Tell us what you need and we source it.",
     tags: "Custom sourcing · Specialty imports",
@@ -387,10 +436,10 @@ export const products: Product[] = [
         file: "/downloads/detergent-brochure.pdf",
         fileType: "pdf",
       },
-      { name: "Hard-to-find raw materials", image: "/categories/other-segments.jpg" },
-      { name: "Custom imports", image: "/categories/other-segments.jpg" },
+      { name: "Hard-to-find raw material", image: "/categories/other-segments.jpg" },
+      { name: "Custom import", image: "/categories/other-segments.jpg" },
       { name: "Bulk sourcing", image: "/categories/other-segments.jpg" },
-      { name: "New material trials", image: "/grades/lab.jpg" },
+      { name: "New material trial", image: "/grades/lab.jpg" },
     ],
     applications: ["Across all the industries we serve"],
   },
@@ -405,7 +454,7 @@ export function getProduct(slug: string): Product | undefined {
 /** Looks up a single product (grade) inside a category by its URL slug. */
 export function getGrade(slug: string, grade: string) {
   const product = getProduct(slug);
-  const g = product?.grades.map(toGrade).find((x) => gradeId(x.name) === grade);
+  const g = product && ownPageGrades(product).find((x) => gradeId(x.name) === grade);
   return product && g ? { product, grade: g } : undefined;
 }
 
@@ -431,10 +480,10 @@ export type Industry = {
 export const industries: Industry[] = [
   {
     slug: "plastic",
-    title: "Plastic",
-    summary: "Colour, additives and fillers for masterbatch, moulding, film and packaging.",
+    title: "Plastic Polymer Additive",
+    summary: "Colour, additive and filler for masterbatch, moulding, film and packaging.",
     overview:
-      "Plastics processors and masterbatch producers rely on us for pigments, additives, minerals and ready-to-use compounds. We help match the right grade to your polymer and process, so colour and performance stay consistent batch after batch.",
+      "Plastics processors and masterbatch producers rely on us for pigment, additive, mineral and ready-to-use compounds. We help match the right grade to your polymer and process, so colour and performance stay consistent batch after batch.",
     image: "/grades/pellets-colored.jpg",
     uses: ["Masterbatch", "Injection moulding", "Film & packaging", "Footwear", "Artificial leather"],
     products: ["pigments", "dyes", "additives", "minerals-fillers", "ready-to-use"],
@@ -442,9 +491,9 @@ export const industries: Industry[] = [
   {
     slug: "paint",
     title: "Paint",
-    summary: "Pigments, TiO₂ and fillers for decorative and industrial paints and coatings.",
+    summary: "Pigment, TiO₂ and filler for decorative and industrial paints and coatings.",
     overview:
-      "For paints and coatings we supply organic and inorganic pigments, rutile TiO₂ grades and mineral fillers, chosen for opacity, colour strength and weatherability.",
+      "For paints and coatings we supply organic and inorganic pigment, rutile TiO₂ grades and mineral filler, chosen for opacity, colour strength and weatherability.",
     image: "/categories/pigments.jpg",
     uses: ["Decorative paints", "Industrial coatings", "Primers", "Distempers"],
     products: ["pigments", "minerals-fillers", "additives"],
@@ -452,9 +501,9 @@ export const industries: Industry[] = [
   {
     slug: "ink",
     title: "Ink",
-    summary: "Pigments and dyes with the strength and dispersion printing inks need.",
+    summary: "Pigment and dye with the strength and dispersion printing inks need.",
     overview:
-      "Printing-ink makers use our pigments, solvent dyes and fluorescent colours for vivid, stable shades with good dispersion and print performance.",
+      "Printing-ink makers use our pigment, solvent dye and fluorescent colours for vivid, stable shades with good dispersion and print performance.",
     image: "/grades/dyes.jpg",
     uses: ["Printing inks", "Packaging inks", "Solvent-based inks"],
     products: ["pigments", "dyes", "additives"],
@@ -462,26 +511,26 @@ export const industries: Industry[] = [
   {
     slug: "detergent",
     title: "Detergent",
-    summary: "Optical brighteners and raw materials for detergent powders and cakes.",
+    summary: "Optical brightener and raw materials for detergent powders and cakes.",
     overview:
-      "We support detergent manufacturers with optical brighteners and other raw materials for powders, cakes and bars. See our detergent segment brochure for the full range.",
+      "We support detergent manufacturers with optical brightener and other raw materials for powders, cakes and bars. See our detergent segment brochure for the full range.",
     image: "/grades/detergent.jpg",
     uses: ["Detergent powder", "Detergent cake & bar", "Washing products"],
     products: ["additives", "other-segments"],
   },
   {
     slug: "garden-pipe",
-    title: "Garden Pipe",
-    summary: "Colours, stabilizers and fillers for PVC garden pipes and profiles.",
+    title: "PVC Garden Pipe",
+    summary: "Colours, stabilizer and filler for PVC garden pipes and profiles.",
     overview:
-      "PVC pipe and profile extruders use our pigments, additives, fillers and ready-to-use compounds. Our garden pipe shade card shows the colours we supply.",
+      "PVC pipe and profile extruders use our pigment, additive, filler and ready-to-use compounds. Our garden pipe shade card shows the colours we supply.",
     image: "/downloads/garden-pipe-shade-card.jpg",
-    uses: ["Garden pipes", "PVC pipes", "PVC profiles"],
+    uses: ["Garden pipes", "Flexible hoses", "Braided pipes"],
     products: ["pigments", "additives", "minerals-fillers", "ready-to-use"],
   },
   {
     slug: "other-applications",
-    title: "Other Applications",
+    title: "Other Application",
     summary: "Rubber, footwear, artificial leather and custom sourcing for other industries.",
     overview:
       "Beyond our core industries, we serve rubber, footwear and artificial leather makers, and source hard-to-find raw materials and custom imports on request.",
@@ -525,9 +574,10 @@ export const nav: readonly NavItem[] = [
         href: `/products/${p.slug}`,
         children: p.grades.map(toGrade).map((g) => ({
           label: g.name,
-          href: `/products/${p.slug}/${gradeId(g.name)}`,
+          href: gradeHref(p.slug, g),
         })),
       })),
+      { label: "Upcoming Products", href: "/upcoming-products" },
     ],
   },
   {
@@ -538,8 +588,6 @@ export const nav: readonly NavItem[] = [
       ...industries.map((i) => ({ label: i.title, href: `/industries/${i.slug}` })),
     ],
   },
-  { label: "Brochure", href: "/brochure" },
-  { label: "Upcoming Products", href: "/upcoming-products" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -550,7 +598,7 @@ export const nav: readonly NavItem[] = [
 export type Upcoming = { title: string; description: string; eta: string };
 export const upcomingProducts: Upcoming[] = [
   {
-    title: "Lead-free PVC Stabilizers (Ca-Zn)",
+    title: "Lead-free PVC Stabilizer (Ca-Zn)",
     description:
       "A fully non-toxic calcium-zinc stabilizer range to help processors move away from lead-based systems.",
     eta: "Coming 2026",
@@ -558,7 +606,7 @@ export const upcomingProducts: Upcoming[] = [
   {
     title: "Ready-to-use Colour Masterbatch",
     description:
-      "Pre-dispersed colour and additive masterbatches to simplify dosing and improve batch consistency.",
+      "Pre-dispersed colour and additive masterbatch to simplify dosing and improve batch consistency.",
     eta: "In development",
   },
   {
@@ -604,16 +652,16 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "Flexible order sizes and reliable delivery made them our default supplier for additives.",
+      "Flexible order sizes and reliable delivery made them our default supplier for additive.",
     name: "Director",
     role: "Footwear Compounder, Delhi NCR",
   },
 ];
 
 export const heroHighlights = [
-  { label: "Pigments", value: "60+ shades" },
-  { label: "Additives", value: "UV · AO · Stabilizers" },
-  { label: "Minerals & Fillers", value: "CaCO₃ · TiO₂" },
+  { label: "Pigment", value: "60+ shades" },
+  { label: "Additive", value: "UV · AO · Stabilizer" },
+  { label: "Mineral & Filler", value: "CaCO₃ · TiO₂" },
 ];
 
 /* Purpose, mission and values. Drafted from the About copy; refine as needed. */
@@ -661,7 +709,7 @@ export const awards: Award[] = [
   },
   {
     title: "80+ products and grades",
-    body: "A range spanning pigments and dyes, additives, minerals and fillers, and ready-to-use compounds.",
+    body: "A range spanning pigment and dye, additive, mineral and filler, and ready-to-use compounds.",
     year: "Milestone",
   },
   {
@@ -679,14 +727,14 @@ export const awards: Award[] = [
 /* Gallery photos. Currently product imagery from the site; swap in warehouse, team and event photos. */
 export type GalleryItem = { caption: string; src: string };
 export const gallery: GalleryItem[] = [
-  { caption: "Pigments", src: "/categories/pigments.jpg" },
-  { caption: "Dyes", src: "/categories/dyes.jpg" },
-  { caption: "Additives", src: "/categories/additives.jpg" },
-  { caption: "Minerals & Fillers", src: "/categories/minerals-fillers.jpg" },
-  { caption: "Ready-to-use compounds", src: "/categories/ready-to-use.jpg" },
+  { caption: "Pigment", src: "/categories/pigments.jpg" },
+  { caption: "Dye", src: "/categories/dyes.jpg" },
+  { caption: "Additive", src: "/categories/additives.jpg" },
+  { caption: "Mineral & Filler", src: "/categories/minerals-fillers.jpg" },
+  { caption: "Ready-to-use compound", src: "/categories/ready-to-use.jpg" },
   { caption: "Quality lab", src: "/grades/lab.jpg" },
   { caption: "Colour masterbatch", src: "/grades/pellets-colored.jpg" },
-  { caption: "Pearlescent pigments", src: "/grades/pearlescent.jpg" },
-  { caption: "Fluorescent pigments", src: "/grades/fluorescent.jpg" },
-  { caption: "Other segments", src: "/categories/other-segments.jpg" },
+  { caption: "Pearlescent pigment", src: "/grades/pearlescent.jpg" },
+  { caption: "Fluorescent pigment", src: "/grades/fluorescent.jpg" },
+  { caption: "Other segment", src: "/categories/other-segments.jpg" },
 ];

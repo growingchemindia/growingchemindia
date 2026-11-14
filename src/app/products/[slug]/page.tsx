@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/cta-band";
 import { BreadcrumbJsonLd, ProductJsonLd } from "@/components/json-ld";
 import { PageHeader } from "@/components/page-header";
-import { getProduct, products, toGrade, gradeId } from "@/lib/content";
+import { getProduct, gradeHref, products, toGrade } from "@/lib/content";
 
 /** Pre-render a static page per product at build time. */
 export function generateStaticParams() {
@@ -171,7 +171,7 @@ export default async function ProductDetailPage({
 
                 return (
                   <li key={g.name}>
-                    <Link href={`/products/${product.slug}/${gradeId(g.name)}`} className={cardClass}>
+                    <Link href={gradeHref(product.slug, g)} className={cardClass}>
                       {body}
                     </Link>
                   </li>

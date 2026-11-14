@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { About } from "@/components/about";
 import { CtaBand } from "@/components/cta-band";
+import { Industries } from "@/components/industries";
 import { PageHeader } from "@/components/page-header";
 import { Process } from "@/components/process";
 import { Stats } from "@/components/stats";
 import { Testimonials } from "@/components/testimonials";
 
 const description =
-  "Growing Chem India is a distribution partner for specialty chemicals, built around consistency, honest grades and responsive service.";
+  "Growing Chem India is a distribution partner for specialty chemical, built around consistency, honest grades and responsive service.";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -25,6 +26,7 @@ export default function AboutPage() {
       </PageHeader>
       <About />
       <Stats />
+      <Industries heading />
       <Process />
       <Testimonials />
       <CtaBand />

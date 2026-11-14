@@ -3,14 +3,16 @@ import { industries } from "@/lib/content";
 import { Reveal } from "./reveal";
 import { SectionHead } from "./section-head";
 
-export function Industries() {
+export function Industries({ heading = false }: { heading?: boolean }) {
   return (
     <section id="industries" className="py-[clamp(3.5rem,7vw,6rem)]">
       <div className="mx-auto w-[92%] max-w-[1160px]">
-        <SectionHead
-          eyebrow="Where our materials go"
-          title="Trusted across the industries that build everyday products"
-        />
+        {heading ? (
+          <SectionHead
+            eyebrow="Where our materials go"
+            title="Trusted across the industries that build everyday products"
+          />
+        ) : null}
         <ul className="grid grid-cols-1 gap-x-10 border-t border-line sm:grid-cols-2 lg:grid-cols-2">
           {industries.map((industry, i) => (
             <Reveal key={industry.slug} as="li" className="border-b border-line">
