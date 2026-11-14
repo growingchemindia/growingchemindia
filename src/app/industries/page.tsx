@@ -4,7 +4,7 @@ import { Industries } from "@/components/industries";
 import { PageHeader } from "@/components/page-header";
 
 const description =
-  "Our materials serve plastics & masterbatch, PVC pipes & profiles, rubber, paints & coatings, printing inks, packaging, footwear and artificial leather.";
+  "Our materials serve plastic, paint, ink, detergent and garden pipe manufacturers, plus rubber, footwear and other applications.";
 
 export const metadata: Metadata = {
   title: "Industries",

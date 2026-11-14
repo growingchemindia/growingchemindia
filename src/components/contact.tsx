@@ -107,6 +107,15 @@ export function Contact() {
           noValidate
           className="rounded-[var(--radius-card)] border border-line bg-white p-7 shadow-[var(--shadow-soft)]"
         >
+          {/* Honeypot for spam bots: hidden from people and screen readers. */}
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="absolute left-[-9999px] h-px w-px opacity-0"
+          />
           <div className="mb-[1.1rem]">
             <label htmlFor="name" className={labelClass}>
               Name

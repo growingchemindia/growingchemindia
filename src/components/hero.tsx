@@ -24,7 +24,7 @@ export function Hero() {
             <span className="text-brand-500">grow</span>.
           </h1>
           <p className="my-6 max-w-[42ch] text-[1.1rem] text-slatemuted">
-            We import, stock and supply pigments, additives, minerals and ready-to-use
+            We import, stock and supply pigments, dyes, additives, minerals and ready-to-use
             compounds for the plastics, PVC, rubber, paint and printing-ink industries,
             backed by lab support and consistent quality.
           </p>

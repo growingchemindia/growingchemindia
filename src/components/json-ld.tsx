@@ -65,10 +65,16 @@ export function ProductJsonLd({
   name,
   description,
   slug,
+  path = `/products/${slug}`,
+  image = `/categories/${slug}.jpg`,
+  category = name,
 }: {
   name: string;
   description: string;
   slug: string;
+  path?: string;
+  image?: string;
+  category?: string;
 }) {
   return (
     <JsonLd
@@ -77,10 +83,10 @@ export function ProductJsonLd({
         "@type": "Product",
         name,
         description,
-        image: `${site.url}/categories/${slug}.jpg`,
-        category: name,
+        image: `${site.url}${image}`,
+        category,
         brand: { "@type": "Brand", name: site.name },
-        url: `${site.url}/products/${slug}`,
+        url: `${site.url}${path}`,
         offers: {
           "@type": "Offer",
           availability: "https://schema.org/InStock",

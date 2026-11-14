@@ -20,7 +20,7 @@ export function Brand({ light = false }: { light?: boolean }) {
         width={218}
         height={80}
         priority
-        className={light ? "h-8 w-auto" : "h-10 w-auto sm:h-11"}
+        className={light ? "h-8 w-auto" : "h-12 w-auto sm:h-14 lg:h-16"}
       />
     </Link>
   );
